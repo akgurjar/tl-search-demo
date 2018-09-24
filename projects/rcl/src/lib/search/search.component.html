@@ -1,0 +1,28 @@
+<div class="search-box">
+  <button (click)="onSearch()">
+    <i class="rcl-search"></i>
+  </button>
+  <ng-content select="input"></ng-content>
+  <button [ngClass]="{loading: loading}" (click)="onSetValue($event, '')">
+    <i class="rcl-spinner"></i>
+    <i class="rcl-close"></i>
+  </button>
+</div>
+<div class="search-hint" *ngIf="isDataArray(hints)">
+  <ng-container *ngTemplateOutlet="hintTemplate; context: { hints: hints }"></ng-container>
+</div>
+<ng-template #hintTemplate let-hints="hints">
+  <ul>
+    <li *ngFor="let hint of hints" [ngClass]="{'hint-group': hint.type === 'GROUP'}">
+      <div class="hint-item" (click)="hint.type !== 'GROUP' && onSetValue($event, hint.label)">
+        <span class="item__label">{{hint.label}}</span>
+        <div *ngIf="isDataArray(hint.actions)" class="item__actions">
+          <span *ngFor="let action of hint.actions" (click)="_input.focus() || action.handler()">{{action.label}}</span>
+        </div>
+      </div>
+      <ng-template [ngIf]="hint.type === 'GROUP' && isDataArray(hint.items)">
+        <ng-container *ngTemplateOutlet="hintTemplate; context: { hints: hint.items }"></ng-container>
+      </ng-template>
+    </li>
+  </ul>
+</ng-template>

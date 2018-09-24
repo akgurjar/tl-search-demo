@@ -125,6 +125,46 @@
           }
         }
       }
+    },
+    "rcl": {
+      "root": "projects/rcl",
+      "sourceRoot": "projects/rcl/src",
+      "projectType": "library",
+      "prefix": "rcl",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/rcl/tsconfig.lib.json",
+            "project": "projects/rcl/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/rcl/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/rcl/src/test.ts",
+            "tsConfig": "projects/rcl/tsconfig.spec.json",
+            "karmaConfig": "projects/rcl/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/rcl/tsconfig.lib.json",
+              "projects/rcl/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "tl-search-demo"
